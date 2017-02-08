@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+
+<div class="navbar" th:include="fragments/navbar :: newNavbar">
+    This is inside content
+</div>
+
+    <h1>This is my default page!!!</h1>
+
+Today is: <p th:text="${date}"></p>
+<br />
+My age is: <p th:text="${age}"></p>
+<br />
+<p th:if="${age == 30}"> You are 30</p>
+<p th:if="${age == 26}"> You are 26</p>
+<br />
+<h2>List of people</h2>
+<ul>
+    <span th:each="name : ${names}">
+        <li th:text="${name}"></li>
+    </span>
+</ul>
+<div class="footer" th:include="fragments/footer :: newFooter">
+    This is a footer
+</div>
+
+</body>
+</html>
