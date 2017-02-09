@@ -1,38 +1,57 @@
 package com.codeup.controllers;
 
+import com.codeup.models.Post;
+import com.codeup.services.PostSvc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vanessamnoble on 2/7/17.
  */
 @Controller
 public class PostsController {
-    @RequestMapping(path = "/posts", method = RequestMethod.GET)
-    @ResponseBody
-    public String postIndex() {
+    @Autowired  //    property injection
+            PostSvc postSvc;
 
-        return "<h1>Welcome to the posts index page!!!!</h1>";
+    @GetMapping("/posts")
+    public String viewAllPosts(Model viewModel) {
+        // array list with several post objects
+        List<Post> posts = postSvc.findAllPosts();
+
+        // pass the list to the view (through a view model)
+        viewModel.addAttribute("posts", posts);
+        return "/posts/index";
     }
 
-    @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public String postID(@PathVariable String id) {
-
-        return "<h1>Hey " + id + "! , view an individual post </h1>";
+    @GetMapping("/posts/{id}")
+    public String viewSinglePost(@PathVariable long id, Model model) {
+//        Inside the method that shows an individual post, create a new post object and pass it to the view.
+        Post post = postSvc.findOne(id);
+        model.addAttribute("post", post);
+        return "/posts/show"; // show.html
     }
 
-    @RequestMapping(path = "/posts/create", method = RequestMethod.POST)
-    @ResponseBody
-    public String createForm() {
-
-        return "<h1> view the form for creating a post </h1>";
+    @GetMapping("/posts/create")
+    public String view(Model model) {
+        Post post = new Post();
+        model.addAttribute("post", post);
+        return "posts/create";
     }
 
-//    @RequestMapping(path = "/posts/create", method = RequestMethod.POST)
-//    @ResponseBody
-//    public String postCreate() {
-//
-//        return "<h1> create a new post </h1>";
-//    }
+    @PostMapping("/posts/create")
+    public String create(@ModelAttribute Post post, Model model) {
+        postSvc.save(post);
+        model.addAttribute("post", post);
+        return "posts/create";
+    }
+    @GetMapping("/posts/{id}/edit")
+    public String edit(@PathVariable int id, @ModelAttribute Post post, Model model) {
+        model.addAttribute("post", postSvc.findOne(id));
+        return "posts/edit";
+    }
 }

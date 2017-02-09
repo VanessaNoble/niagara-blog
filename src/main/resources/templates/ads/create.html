@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+
+    <head th:replace="fragments/header :: header(${'Create a post'})"> //add new header replace old title
+</head>
+<body>
+<div class="container">
+
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-4">
+            <form class="form-group" th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
+                <label for="title">Title</label>
+                <input class="form-control" th:field="*{title}" />
+                <br/>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+                <label for="body">Blog post</label>
+                <textarea rows="20" cols="20" class="form-control" th:field="*{body}"></textarea>
+                <br/>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
+                <br/>
+                <label for="file">Image</label>
+                <input type="file" name="file" id="file"/>
+                <input class="btn btn-primary" type="submit" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div> //add new footer replace old title
+</body>
+</html>

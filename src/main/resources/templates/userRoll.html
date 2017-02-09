@@ -13,6 +13,16 @@
     <li><a href="/check-guess/5">5</a></li>
     <li><a href="/check-guess/6">6</a></li>
 </ul>
+<ul>
+    <li th:each=""number : ${numbers}">
+        <a th:text="${number}" th:href="@{'/roll-dice/' +${number}}"/>
+    </li>
+    <li><a href="/check-guess/2">2</a></li>
+    <li><a href="/check-guess/3">3</a></li>
+    <li><a href="/check-guess/4">4</a></li>
+    <li><a href="/check-guess/5">5</a></li>
+    <li><a href="/check-guess/6">6</a></li>
+</ul>
 
 </body>
 </html>
