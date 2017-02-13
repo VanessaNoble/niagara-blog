@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head">
-    ...
-</head>
+<head th:replace="fragments/header :: head(title='Edit on ad')" />
+
+
 <body>
-<div class="navbar" th:replace="fragments/navbar :: navbar">...</div>
-<div class="container stuff">
-    <div th:replace="fragments/form :: post-form">...</div>
+<nav th:replace="fragments/navbar :: newNavbar"/>
+<div class="container">
+    <section th:replace="fragments/form :: post_form(
+             action=${'/posts/' + post.id + '/edit'},
+             post=${post},
+             label ='Update post'
+             )"/>
+    <input class="btn btn-primary" type="submit" th:value="Edit" />
+    <!--<input class="btn btn-danger" type="submit" th:value="Delete" />-->
+
 </div>
+<!--<span th:replace="fragments :: scripts" />-->
 </body>
 </html>

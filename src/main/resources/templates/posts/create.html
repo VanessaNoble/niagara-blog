@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head">...</head>
+<head th:replace="fragments/header :: head(title='Howdy')">...</head>
 <body>
-<div class="navbar" th:replace="fragments/navbar :: navbar">...</div>
-<div class="container stuff">
-    <div th:replace="fragments/form :: post-form">...</div>
-</div>
+    <div class="navbar" th:replace="fragments/navbar :: navbar">...</div>
+    <div class="container">
+        <div class="row">
+            <div class="col l8 offset-l2">
+                <form class="form-group" th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
+                    <label for="title">Title</label>
+                    <input class="form-control" th:field="*{title}" />
+                    <br/>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+                    <label for="body">Blog post</label>
+                    <textarea class="materialize-textarea form-control" th:field="*{body}"></textarea>
+                    <br/>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
+                    <br/>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" name="file" id="file" />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" />
+                        </div>
+                    </div>
+                    <input class="btn btn-primary waves-effect waves-light" type="submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+<div th:replace="fragments/form :: post-form">...</div>
+
 </body>
 </html>
+
+

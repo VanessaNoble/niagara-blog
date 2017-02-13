@@ -4,13 +4,27 @@
     <meta charset="UTF-8" />
     <title>Title</title>
 </head>
-//index.html
-<h1>All Posts:
-    <p th:each="post : ${ListOfPosts}">
-    <h2><span th:text="${post.title}"></span></h2>
-    <h3><span th:text="${post.body}"></span></h3>
-    </p>
-</h1>
-//show.html
-<!--<h1><span th:text="${post.title}"></span></h1>-->
-<!--<h1><span th:text="${post.body}"></span></h1>-->
+
+<body>
+<nav th:replace="fragments/navbar :: newNavbar" />
+<div class="container">
+    <h1>All Posts:</h1>
+    <a class="btn btn-success" href="/posts/create">Create an ad!</a>
+        <div th:each="post : ${posts}">
+            <h2><span th:text="${post.title}"></span></h2>
+            <h3><span th:text="${post.body}"></span></h3>
+            <a class="btn btn-default" th:href="${'/posts/' + post.id}">Show</a>
+            <a class="btn btn-pimary" th:href="${'/posts/' + post.id +'/edit'}">Edit</a>
+        </div>
+</div>
+<h3>List of Posts</h3>
+<ul>
+    <li>
+        <p>Created by: <span th:text="${ad.user.username}"></span></p>
+        <
+    </li>
+</ul>
+</body>
+
+</html>
+

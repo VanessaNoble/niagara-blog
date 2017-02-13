@@ -1,39 +1,38 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
-import com.codeup.services.PostSvc;
+import com.codeup.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by vanessamnoble on 2/7/17.
  */
+
+
 @Controller
 public class PostsController {
-    @Autowired  //    property injection
-            PostSvc postSvc;
+    @Autowired
+    PostsRepository service;
+
+    public PostsController(PostsRepository service){
+        this.service = service;
+    }
 
     @GetMapping("/posts")
-    public String viewAllPosts(Model viewModel) {
-        // array list with several post objects
-        List<Post> posts = postSvc.findAllPosts();
-
-        // pass the list to the view (through a view model)
-        viewModel.addAttribute("posts", posts);
-        return "/posts/index";
+    public String index(Model m) {
+        m.addAttribute("posts", service.findAll());
+        return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String viewSinglePost(@PathVariable long id, Model model) {
-//        Inside the method that shows an individual post, create a new post object and pass it to the view.
-        Post post = postSvc.findOne(id);
-        model.addAttribute("post", post);
-        return "/posts/show"; // show.html
+    public String post(@PathVariable long id, Model m) {
+        m.addAttribute("post", service.findOne(id));
+        return "/posts/show";
     }
 
     @GetMapping("/posts/create")
@@ -45,13 +44,28 @@ public class PostsController {
 
     @PostMapping("/posts/create")
     public String create(@ModelAttribute Post post, Model model) {
-        postSvc.save(post);
+//        User user = new User(post);
+//        user.setId(2);
+//        post.setUser(user);
+//        service.save(post);
+        service.save(post);
         model.addAttribute("post", post);
-        return "posts/create";
+        return "redirect:/posts";
     }
+
     @GetMapping("/posts/{id}/edit")
-    public String edit(@PathVariable int id, @ModelAttribute Post post, Model model) {
-        model.addAttribute("post", postSvc.findOne(id));
+    public String edit(@PathVariable Long id, @ModelAttribute Post post, Model model) {
+        model.addAttribute("post", service.findOne(id));
         return "posts/edit";
     }
+
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@ModelAttribute Post post) {
+        service.delete(service.findOne(post.getId()));
+        return "redirect:/posts";
+    }
+
 }
+
+
+

@@ -4,7 +4,7 @@
     ...
 </head>
 <body>
-<div th:fragment="post-form" class="form-group">
+<div th:fragment="post_form" class="form-group">
     <form action="/posts/create" method="POST" th:object="${post}">
         <label>Title</label>
         <input class="form-control" type="text" name="title" th:field="*{title}"/>

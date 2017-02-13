@@ -1,15 +1,35 @@
 package com.codeup.models;
 
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.Query;
+
+import javax.persistence.*;
 /**
  * Created by vanessamnoble on 2/8/17.
  */
+@Entity
+@Table(name="posts")
+
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false, length = 100)
     private String title;
-    private String body;
 
-    public Post(){
+    @Column(nullable = false, length = 2000)
+    private String description;
+    @ManyToOne
+    @JoinColumn (name = "user_id") //define at the table level
+    private User user;  //owner, author
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -20,32 +40,31 @@ public class Post {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Post(String title, String body) {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post(String title, String description) {
         this.title = title;
-        this.body = body;
+        this.description = description;
     }
 
-    public long getId() {
-        return id;
+    public Post(){
+
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Post(long id, String title, String body) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-    }
 
 }
 
