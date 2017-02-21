@@ -1,12 +1,6 @@
-
-
 /**
- * Created by vanessamnoble on 2/13/17.
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-// SQL - Structured Query Lang - tables
-//HQL - Hibernate Query Lang - obj - entities
-
-    
 package com.codeup.repositories;
 
 import com.codeup.models.UserRole;

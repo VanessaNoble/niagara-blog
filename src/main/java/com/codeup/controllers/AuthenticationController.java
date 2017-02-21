@@ -3,6 +3,7 @@ package com.codeup.controllers;
 import com.codeup.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import com.codeup.models.User;
 import org.springframework.stereotype.Controller;
