@@ -1,14 +1,9 @@
+/**
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
 package com.codeup.repositories;
 
-
-
-/**
- * Created by vanessamnoble on 2/9/17.
- */
-
-
-
-import com.codeup.models.Post;
+import com.codeup.models.Ad;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +13,5 @@ import org.springframework.stereotype.Repository;
 // delete -> table, values
 
 @Repository
-public interface PostsRepository extends CrudRepository<Post, Integer> {
+public interface AdsRepository extends CrudRepository<Ad, Integer> {
 }
