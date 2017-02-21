@@ -1,5 +1,6 @@
 package com.codeup.models;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.stereotype.Controller;
 
@@ -11,39 +12,58 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users")
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Enter a username")
     private String username;
 
     @Column(nullable = false)
+    @NotBlank(message = "Your password cannot be empty")
+    @Size(min = 8, message = "Your password should have at least 8 characters")
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)
+    @Email(message = "Enter a valid email address")
+    @NotBlank(message = "Enter an email")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Post> posts; //these are all the posts the user created.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // defined at the object level
+    @JsonBackReference
+    private List<Ad> ads;  // these are all the ads created by this user
 
-    //pattern
-    //copy constructor - an alternative to clone
+    // pattern
+    // copy constructor -> an alternative to clone
     public User(User user) {
         id = user.id;
-        username = user.password;
+        username = user.username;
         password = user.password;
         email = user.email;
-        posts = user.posts;
-
-    }
-    public User(){
-
+        ads = user.ads;
     }
 
-    private long getId(){ return id; }
+    public User() {
+    }
+
+    public List<Ad> getAds() {
+        return ads;
+    }
+
+    public void setAds(List<Ad> ads) {
+        this.ads = ads;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -68,7 +88,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 }
-

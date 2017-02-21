@@ -1,33 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header(title='Show Post')" />
-
+<head>
+    <meta charset="UTF-8"/>
+    <title>View a single post</title>
+</head>
 <body>
-<div th:replace="fragments/navbar :: newNavbar"></div>
-<div class="container">
-<br />
-<br />
-<br />
-    <div class="col 18 offset-12">
-        <div th:object="${post.title}">
-            <h3 th:text="*{post.descriptiom}"></h3>
-            <p class="lead">
-                Posted by
-                    <a th:href="${'/users/'+ post.user.id}" th:text="${post.user.username}" />
-                Contact at
-                    <a th:href="${'mailto:'+ post.user.email}" th:text="${post.user.email}" />
-            </p>
-            <a class="btn btn-primary" th:href="@{'/posts/'+ ${post.id} +'/edit' }">Edit Post</a>
-            <form th:method="Post" th:action="@{'/posts/delete'}">
-                <input type="hidden" name="id" th:value="${post.id}" />
-                <button class="btn btn-danger">Delete</button>
-            </form>
-            </div>
-        </div>
-    <div class="col-lg-12">
-            <div th:replace="fragments/footer :: newFooter"></div>
-    </div>
-</div>
-
+<h1 th:text="${post.title}" />
+<p th:text="${post.body}" />
 </body>
 </html>
+

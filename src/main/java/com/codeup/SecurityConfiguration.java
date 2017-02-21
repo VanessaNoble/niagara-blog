@@ -6,6 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created by vanessamnoble on 2/13/17.
@@ -16,28 +22,13 @@ import org.springframework.context.annotation.Configuration;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsLoader userDetailsLoader;
+    private UserDetailsLoader userDetails;
 
     @Bean(name = "passwordEncoder")
     public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/ads/create") // only admin users can create ads
-//                .hasAuthority("ADMIN");
-//    }
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/ads/create") // either admin or sellers can create ads
-//                .hasAnyAuthority("ADMIN", "SELLER");
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -60,10 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsLoaderService(userDetailsLoader).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
     }
-
-//      where does this go?
-//    (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()
 }
+
 
